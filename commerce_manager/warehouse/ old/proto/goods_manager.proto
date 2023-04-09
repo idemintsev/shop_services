@@ -1,0 +1,69 @@
+syntax = "proto3";
+package goods.v1;
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+
+// Goods manager service
+service GoodsManagerService {
+    // Add a new good
+    rpc AddGood (AddGoodRequest) returns (Response) {};
+    // Delete a good
+    rpc RemoveGood (RemoveGoodRequest) returns (Response) {};
+    // Update a good
+    rpc UpdateGood (UpdateGoodRequest) returns (Response) {};
+    // Get good's information
+    rpc GetGoodInfo (GoodInfoRequest) returns (InfoResponse) {};
+}
+
+message AddGoodRequest {
+    string warehouse_name = 1;
+    string good_id = 2;
+    string name = 3;
+    float price = 4;
+}
+
+message RemoveGoodRequest {
+    string warehouse_name = 1;
+    string good_id = 2;
+}
+
+message UpdateGoodRequest {
+    string warehouse_name = 1;
+    string good_id = 2;
+    string name = 3;
+    float price = 4;
+}
+
+message GoodInfoRequest {
+    oneof query_param {
+        InfoByWarehouse warehouse_name = 1;
+        InfoByGoodId good_id = 2;
+    }
+    optional string good_name = 3;
+    optional float good_price = 4;
+    optional google.protobuf.Timestamp created_at = 5;
+    optional google.protobuf.Timestamp updated_at = 6;
+}
+
+message InfoByWarehouse {
+    string value = 1;
+}
+
+message InfoByGoodId {
+    string value = 1;
+}
+
+message InfoResponse {
+    repeated GoodInfo results = 1;
+}
+
+message GoodInfo {
+    string warehouse_name = 1;
+    string good_id = 2;
+    string name = 3;
+    float price = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}

@@ -1,0 +1,49 @@
+syntax = "proto3";
+package warehouse.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+
+// Warehouse manager service
+service WarehouseManagerService {
+    // Create a warehouse
+    rpc CreateWarehouse (CreateRequest) returns (Response) {};
+    // Delete a warehouse
+    rpc DeleteWarehouse (DeleteRequest) returns (Response) {};
+    // Get list of existing warehouses
+    rpc ExistingWarehouses (google.protobuf.Empty) returns (InfoResponse) {};
+}
+
+message CreateRequest {
+    string name = 1;
+    string address = 2;
+    GeoPoint location = 3;
+}
+
+message WarehouseInfo {
+    string name = 1;
+    string address = 2;
+    GeoPoint location = 3;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+message GeoPoint {
+    double lon = 1;
+    double lat = 2;
+}
+
+message DeleteRequest {
+    repeated string name =1;
+}
+
+message Response {
+    string name = 1;
+    Status status = 2;
+}
+
+message InfoResponse {
+    repeated WarehouseInfo results = 1;
+}

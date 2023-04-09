@@ -1,0 +1,32 @@
+syntax = "proto3";
+package shop.v1;
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+
+// Shop manager service
+service ShopManagerService {
+    // Buy a new good
+    rpc BuyGood (BuyingRequest) returns (Response) {};
+    //  Return a good
+    rpc ReturnGood (ReturnRequest) returns (Response) {};
+}
+
+message BuyingRequest {
+    string warehouse_name = 1;
+    string good_id = 2;
+    string name = 3;
+    float price = 4;
+    int32 goods_quantity = 5;
+    float total_sum = 6;
+}
+
+message ReturnRequest {
+    string warehouse_name = 1;
+    string good_id = 2;
+    string name = 3;
+    float price = 4;
+    int32 goods_quantity = 5;
+    float total_sum = 6;
+}
