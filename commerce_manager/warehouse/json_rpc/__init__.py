@@ -29,7 +29,6 @@ async def internal_app_errors_handler(request, handler):
 rpc_app = aiohttp_rpc.JsonRpcServer(
     middlewares=[
         aiohttp_rpc.middlewares.extra_args_middleware,
-        request_context,
         internal_app_errors_handler,
     ],
 )
