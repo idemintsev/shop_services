@@ -28,21 +28,11 @@ LOG_CONFIG = {
             'handlers': ['console'],
             'propagate': False
         },
-        'peewee_migrate': {
-            'level': logging.INFO,
-            'handlers': ['console'],
-            'propagate': False,
-        },
         'gunicorn': {
             'level': logging.INFO,
             'handlers': ['console'],
             'propagate': False,
         },
-        'dramatiq': {
-            'level': logging.INFO,
-            'handlers': ['console'],
-            'propagate': False,
-        }
     },
 }
 
