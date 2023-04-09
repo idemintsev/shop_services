@@ -7,11 +7,6 @@ from commerce_manager.warehouse.json_rpc import handlers
 # Middlewares
 
 
-async def request_context(request, handler):
-    request.crdb = request.context['http_request'].app.get('db') or None
-    return await handler(request)
-
-
 async def internal_app_errors_handler(request, handler):
     try:
         error = None
