@@ -19,10 +19,10 @@ async def init_orm() -> None:
 
 class WarehouseModel(Model):
     id: fields.Field[int] = fields.IntField(pk=True)
-    name: fields.Field[str] = fields.CharField(150)
+    name: fields.Field[str] = fields.CharField(150, unique=True)
     address: fields.Field[str] = fields.TextField()
-    latitude: fields.Field[float] = fields.FloatField()
-    longitude: fields.Field[float] = fields.FloatField()
+    latitude: fields.Field[float] = fields.FloatField(unique=True)
+    longitude: fields.Field[float] = fields.FloatField(unique=True)
     goods: fields.ManyToManyRelation['GoodModel']
 
     created_at: datetime = fields.DatetimeField(auto_now_add=True)
@@ -34,11 +34,17 @@ class WarehouseModel(Model):
     def __str__(self):
         return f'{self.id} {self.name}'
 
+    def get_nearest_warehouse_with_good(self, latitude, longitude):
+        row_sql = f'SELECT id, earth_distance(ll_to_earth(latitude, longitude), ' \
+                  f'll_to_earth({latitude}, {longitude})) AS distance ' \
+                  f'FROM {self.Meta.table} ' \
+                  f'ORDER BY distance;'
+
 
 class GoodModel(Model):
     id: fields.Field[int] = fields.IntField(pk=True)
-    name: fields.Field[str] = fields.CharField(150)
-    code: fields.Field[str] = fields.CharField(128)
+    name: fields.Field[str] = fields.CharField(150, unique=True)
+    code: fields.Field[str] = fields.CharField(128, unique=True)
     description: fields.Field[str] = fields.TextField()
     quantity: fields.Field[int] = fields.IntField()
     warehouse: fields.ManyToManyRelation['WarehouseModel'] = fields.ManyToManyField(
